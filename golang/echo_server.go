@@ -9,11 +9,14 @@ import (
 	"strings"
 )
 
+var certFile = "/Users/jemy/Worklab/echo/kubernetes.pem"
+var keyFile = "/Users/jemy/Worklab/echo/kubernetes-key.pem"
+
 func main() {
 	var host string
 	var port int
-	flag.StringVar(&host, "host", "0.0.0.0", "host to listen")
-	flag.IntVar(&port, "port", 80, "port to listen")
+	flag.StringVar(&host, "host", "albert.apple.com", "host to listen")
+	flag.IntVar(&port, "port", 443, "port to listen")
 	flag.Parse()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
@@ -43,6 +46,6 @@ func main() {
 	})
 
 	//listen and serve
-	err := http.ListenAndServe(fmt.Sprintf("%s:%d", host, port), nil)
+	err := http.ListenAndServeTLS(fmt.Sprintf("%s:%d", host, port), certFile, keyFile, nil)
 	fmt.Println("listen err,", err)
 }
