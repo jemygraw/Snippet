@@ -37,6 +37,12 @@ func main() {
 		return
 	}
 
+	mkErr := os.MkdirAll(destDir, 0755)
+	if mkErr != nil {
+		fmt.Println("Error: invalid dest dir", mkErr)
+		return
+	}
+
 	resp, respErr := http.Get(m3u8Url)
 	if respErr != nil {
 		fmt.Println("Error: get m3u8 error,", respErr)
